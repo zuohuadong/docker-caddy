@@ -3,14 +3,16 @@ FROM golang:alpine
 ARG version="0.10.9"
 
 # RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
-RUN apk update && apk add --no-cache openssh-client git build-base openssl
+RUN apk update && apk add --no-cache --virtual .build-deps \
+    build-base \
+    && apk add --no-cache openssh-client git
 
 RUN go get github.com/abiosoft/caddyplug/caddyplug
 
 RUN caddyplug install-caddy 
 RUN caddyplug install git 
 
-RUN apk del .build-base
+RUN apk del .build-deps
 RUN caddy --version
 
 
