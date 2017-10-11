@@ -1,14 +1,13 @@
 FROM golang
 
-ARG version="0.10.9"
+ARG plugins ="git"
 
+# If you come frome china, please use it.
 # RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
-RUN apt update && apt install  \
-    openssh-client \
-    git \
-    && go get github.com/abiosoft/caddyplug/caddyplug \
+
+RUN go get github.com/abiosoft/caddyplug/caddyplug \
     && caddyplug install-caddy \
-    && caddyplug install git
+    && caddyplug install ${plugins}
 
 EXPOSE 80 443 2015
 
