@@ -10,7 +10,7 @@ RUN go get github.com/abiosoft/caddyplug/caddyplug
 RUN caddyplug install-caddy 
 RUN caddyplug install git 
 
-RUN apk del build-base
+RUN apk del .build-base
 RUN caddy --version
 
 
