@@ -1,17 +1,17 @@
-FROM golang:alpine
+FROM golang
 
-ARG version="0.10.9"
+MAINTAINER Huadong Zuo <admin@zuohuadong.cn>
 
-# RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
-RUN apk update && apk add --no-cache --virtual .build-deps \
-    build-base \
-    && apk add --no-cache \
-    openssh-client \
-    git \
-    && go get github.com/abiosoft/caddyplug/caddyplug \
+ARG plugins="git"
+
+## If you come frome china, please ues it.
+
+# RUN echo "172.217.6.127 golang.org" >> /etc/hosts
+
+RUN go get github.com/abiosoft/caddyplug/caddyplug \
     && caddyplug install-caddy \
-    && caddyplug install git \
-    && apk del .build-deps
+    && caddyplug install git
+RUN caddy --version
 
 EXPOSE 80 443 2015
 
