@@ -9,7 +9,7 @@ MAINTAINER Huadong Zuo <admin@zuohuadong.cn>
 
 ARG plugins="git"
 
-COPY --from=builder /usr/bin/caddyplug /usr/bin/caddyplug
+COPY --from=builder /bin/caddyplug /bin/caddyplug
 
 ## If you come frome china, please ues it.
 
