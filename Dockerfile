@@ -11,7 +11,7 @@ ARG plugins="git"
 
 COPY --from=builder /go/bin/caddyplug /usr/bin/caddyplug
 
-COPY --from=builder /usr/bin/caddy /usr/bin/caddy
+# COPY --from=builder /usr/bin/caddy /usr/bin/caddy
 
 ## If you come frome china, please ues it.
 
