@@ -10,7 +10,8 @@ ARG plugins="git"
 
 RUN go get github.com/abiosoft/caddyplug/caddyplug \
     && caddyplug install-caddy \
-    && caddyplug install git
+    && apt remove golang* -y
+#     && caddyplug install git
 RUN caddy --version
 
 EXPOSE 80 443 2015
