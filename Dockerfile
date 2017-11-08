@@ -5,6 +5,8 @@ RUN go get github.com/abiosoft/caddyplug/caddyplug
 
 FROM golang:alpine
 
+RUN apk add --no-cache openssh-client git
+
 MAINTAINER Huadong Zuo <admin@zuohuadong.cn>
 
 ARG plugins="git"
