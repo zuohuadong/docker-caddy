@@ -11,6 +11,8 @@ MAINTAINER Huadong Zuo <admin@zuohuadong.cn>
 
 ARG plugins="git"
 
+RUN apt install openssl-client git
+
 COPY --from=builder /go/bin/caddyplug /usr/bin/caddyplug
 
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
