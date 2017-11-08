@@ -4,7 +4,7 @@ FROM golang as builder
 RUN go get github.com/abiosoft/caddyplug/caddyplug \
     && caddyplug install-caddy
 
-FROM alpine
+FROM golang:alpine
 
 MAINTAINER Huadong Zuo <admin@zuohuadong.cn>
 
