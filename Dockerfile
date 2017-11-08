@@ -1,8 +1,7 @@
 
 FROM golang as builder
 
-RUN go get github.com/abiosoft/caddyplug/caddyplug \
-    && caddyplug install-caddy
+RUN go get github.com/abiosoft/caddyplug/caddyplug 
 
 FROM golang:alpine
 
@@ -18,7 +17,8 @@ COPY --from=builder /usr/bin/caddy /usr/bin/caddy
 
 # RUN echo "172.217.6.127 golang.org" >> /etc/hosts
 
-RUN caddyplug install git
+RUN caddyplug install-caddy \
+    && caddyplug install git
     
 RUN caddy --version
 
