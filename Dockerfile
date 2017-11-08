@@ -1,8 +1,8 @@
 
-FROM golang as builder
+#FROM golang as builder
 
-RUN go get github.com/abiosoft/caddyplug/caddyplug \
-    && caddyplug install-caddy
+# RUN go get github.com/abiosoft/caddyplug/caddyplug \
+#     && caddyplug install-caddy
 
 FROM golang
 
@@ -13,13 +13,16 @@ ARG plugins="git"
 
 RUN apt update && apt install openssh-client git -y
 
-COPY --from=builder /go/bin/caddyplug /usr/bin/caddyplug
+# COPY --from=builder /go/bin/caddyplug /usr/bin/caddyplug
 
-COPY --from=builder /usr/bin/caddy /usr/bin/caddy
+# COPY --from=builder /usr/bin/caddy /usr/bin/caddy
 
 ## If you come frome china, please ues it.
 
 # RUN echo "172.217.6.127 golang.org" >> /etc/hosts
+
+RUN go get github.com/abiosoft/caddyplug/caddyplug \
+    && caddyplug install-caddy
 
 RUN caddyplug install git
     
