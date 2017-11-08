@@ -11,7 +11,7 @@ MAINTAINER Huadong Zuo <admin@zuohuadong.cn>
 
 ARG plugins="git"
 
-RUN apt install openssh-client git
+RUN apt update && apt install openssh-client git -y
 
 COPY --from=builder /go/bin/caddyplug /usr/bin/caddyplug
 
