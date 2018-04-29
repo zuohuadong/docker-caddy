@@ -12,11 +12,8 @@ RUN apk add --no-cache openssh-client git build-base
 # RUN echo "172.217.6.127 golang.org" >> /etc/hosts
 
 RUN go get github.com/abiosoft/caddyplug/caddyplug \
-    && caddyplug install-caddy
-
-RUN caddyplug install git
-    
-RUN caddy --version
+    && caddyplug install-caddy \
+    && caddyplug install ${plugins}
 
 EXPOSE 80 443 2015
 
