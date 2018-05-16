@@ -34,7 +34,7 @@ RUN /usr/bin/caddy -plugins
 
 EXPOSE 80 443 2015
 VOLUME /root/.caddy /srv
-WORKDIR /srv
+WORKDIR /var/www/public
 
 COPY Caddyfile /etc/Caddyfile
 COPY index.html /srv/index.html
