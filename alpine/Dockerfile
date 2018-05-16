@@ -1,22 +1,46 @@
-FROM golang:alpine
+#
+# Builder
+#
+FROM abiosoft/caddy:builder as builder
 
+ARG version="0.11.0"
+ARG plugins="git,filemanager,cors,realip,expires,cache"
 
-MAINTAINER Huadong Zuo <admin@zuohuadong.cn>
+# process wrapper
+RUN go get -v github.com/abiosoft/parent
 
-ARG plugins="git"
+RUN VERSION=${version} PLUGINS=${plugins} /bin/sh /usr/bin/builder.sh
 
-RUN apk add --no-cache openssh-client git build-base
+#
+# Final stage
+#
+FROM alpine:3.7
+LABEL maintainer "Abiola Ibrahim <abiola89@gmail.com>"
 
-## If you come frome china, please ues it.
+ARG version="0.11.0"
+LABEL caddy_version="$version"
 
-# RUN echo "172.217.6.127 golang.org" >> /etc/hosts
+# Let's Encrypt Agreement
+ENV ACME_AGREE="false"
 
-RUN go get github.com/abiosoft/caddyplug/caddyplug \
-    && caddyplug install-caddy \
-    && caddyplug install ${plugins}
+RUN apk add --no-cache openssh-client git
+
+# install caddy
+COPY --from=builder /install/caddy /usr/bin/caddy
+
+# validate install
+RUN /usr/bin/caddy -version
+RUN /usr/bin/caddy -plugins
 
 EXPOSE 80 443 2015
+VOLUME /root/.caddy /srv
+WORKDIR /srv
 
-WORKDIR /var/www/public
+COPY Caddyfile /etc/Caddyfile
+COPY index.html /srv/index.html
 
-CMD ["/usr/bin/caddy", "-conf", "/etc/Caddyfile"]
+# install process wrapper
+COPY --from=builder /go/bin/parent /bin/parent
+
+ENTRYPOINT ["/bin/parent", "caddy"]
+CMD ["--conf", "/etc/Caddyfile", "--log", "stdout", "--agree=$ACME_AGREE"]
